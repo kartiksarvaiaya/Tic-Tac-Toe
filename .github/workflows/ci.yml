@@ -1,0 +1,33 @@
+name: Tic Tac Toe CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Compile
+        run: |
+          mkdir -p out
+          javac -d out $(find src -name "*.java")
+
+      - name: Run application
+        run: |
+          java -cp out com.app.Main
